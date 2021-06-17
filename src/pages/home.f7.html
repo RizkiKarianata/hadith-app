@@ -1,0 +1,45 @@
+<template>
+	<div class="page">
+		<div class="navbar">
+			<div class="navbar-bg"></div>
+			<div class="navbar-inner sliding">
+				<div class="title">MyHadist</div>
+			</div>
+		</div>
+		<div class="page-content">
+			<div class="list links-list">
+				<ul>
+					{{#each data}}
+					<li><a href="/hadits-all/{{this.id}}/">{{this.name}}</a></li>
+					{{/each}}
+				</ul>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+	export default{
+		mounted() {
+			var $this = this;
+			var app = this.$app;
+			var $$ = this.$$;
+			var self = this;
+		},
+		on: {
+			pageInit: function () {
+				var self = this;
+				var $this = this;
+				var app = this.$app;
+				var $$ = this.$$;
+				var dataJSON = new Array();
+				app.request.get('https://api-hadits.azharimm.tk/books', (response) => {
+					dataJSON = JSON.parse(response);
+					console.log(dataJSON);
+					self.$setState({
+						data: dataJSON.data
+					});
+				});
+			},
+		},
+	}
+</script>

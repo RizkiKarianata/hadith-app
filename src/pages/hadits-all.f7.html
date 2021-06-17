@@ -1,0 +1,53 @@
+<template>
+	<div class="page">
+		<div class="navbar">
+			<div class="navbar-bg"></div>
+			<div class="navbar-inner sliding">
+				<div class="left">
+					<a href="/">
+						<i class="icon f7-icons if-not-md">arrow_left</i>
+						<i class="icon material-icons if-md">arrow_back</i>
+					</a>
+				</div>
+				<div class="title">MyHadist</div>
+			</div>
+		</div>
+		<div class="page-content">
+			{{#each data}}
+			<div class="card card-outline">
+				<div class="card-content card-content-padding">
+					<h6>{{this.arab}}</h6>
+					<p>{{this.id}}</p>
+				</div>
+			</div>
+			{{/each}}
+		</div>
+	</div>
+</template>
+<script>
+	export default{
+		mounted() {
+			var $this = this;
+			var app = this.$app;
+			var $$ = this.$$;
+			var self = this;
+		},
+		on: {
+			pageInit: function () {
+				var self = this;
+				var $this = this;
+				var app = this.$app;
+				var $$ = this.$$;
+				var id = this.$route.params.id;
+				var dataJSON = new Array();
+				app.request.get('https://api-hadits.azharimm.tk/books/'+id, (response) => {
+					dataJSON = JSON.parse(response);
+					console.log(dataJSON);
+					self.$setState({
+						data: dataJSON.data.hadits
+					});
+				});
+			},
+		},
+	}
+</script>
